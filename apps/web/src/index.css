@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 25 100% 97.6%; /* #FFF8F3 Minimalist Off-White Warm Background */
+  --foreground: 200 33% 19%; /* #203640 Main Text */
+  --card: 25 100% 97.6%; /* #FFF8F3 */
+  --card-foreground: 200 33% 19%;
+  --popover: 25 100% 97.6%; /* #FFF8F3 */
+  --popover-foreground: 200 33% 19%;
+  --primary: 186 31% 54%; /* #69A6AD Primary Teal */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 202 38% 26%; /* #29495C Primary Navy */
+  --secondary-foreground: 0 0% 100%;
+  --muted: 180 14% 93%; /* #E7F1F1 Teal Tint */
+  --muted-foreground: 200 13% 45%; /* #647982 Secondary Text */
+  --accent: 186 31% 70%; /* #9CC7CB Soft Teal */
+  --accent-foreground: 200 33% 19%;
+  --destructive: 0 49% 57%; /* #C85C5C Error */
+  --destructive-foreground: 0 0% 100%;
+  --border: 30 5% 90%; /* #E7E5E3 */
+  --input: 30 5% 90%;
+  --ring: 186 31% 54%;
+  --radius: 0.5rem;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .font-mono, .mono-numeric {
+    font-family: 'JetBrains Mono', monospace !important;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.page-transition {
+  animation: pageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: top center;
+  will-change: opacity, transform;
+}
+
+.animate-menu-in {
+  animation: menuIn 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: var(--radix-dropdown-menu-content-transform-origin, top center);
+}
+
+.premium-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.premium-card:hover {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
