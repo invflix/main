@@ -6,8 +6,10 @@ VALUES (
     'a0000000-0000-0000-0000-000000000001',
     'abhyudaya@chaibytes.in',
     '$2b$12$kaxKuNNl11AZx/DCOut6jeUOeNXAsFnV3xTGZpVm4BAvIJz5i25DO',
-    'Platform Super Admin',
+    'Abhyudaya Dubey',
     TRUE,
     TRUE
 )
-ON CONFLICT (email) DO NOTHING;
+ON CONFLICT (email) DO UPDATE
+SET full_name = EXCLUDED.full_name,
+    is_active = TRUE;

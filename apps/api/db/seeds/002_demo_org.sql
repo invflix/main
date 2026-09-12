@@ -1,16 +1,19 @@
 -- Seeds: 002_demo_org.sql
--- Create Medicare Pharmacy Group organization and its branches/members.
+-- Create Invflix demo organization and its branches/members.
 -- All passwords are 'password123'
 
 -- Organization
 INSERT INTO organizations (id, name, business_email, phone)
 VALUES (
     'b0000000-0000-0000-0000-000000000001',
-    'MediCare Pharmacy Group',
-    'contact@medicare.com',
+    'Invflix Pharmacy Group',
+    'hashim@invflix.com',
     '+91 11 2345 6789'
 )
-ON CONFLICT DO NOTHING;
+ON CONFLICT (id) DO UPDATE
+SET name = EXCLUDED.name,
+    business_email = EXCLUDED.business_email,
+    phone = EXCLUDED.phone;
 
 -- Branches
 INSERT INTO branches (id, organization_id, name, branch_code, address, city, state, postal_code, phone, is_active)
@@ -58,45 +61,26 @@ INSERT INTO users (id, email, password_hash, full_name, is_platform_admin, is_ac
 VALUES
 (
     'd0000000-0000-0000-0000-000000000001',
-    'owner@medistock.com',
+    'hashim@invflix.com',
     '$2b$12$kaxKuNNl11AZx/DCOut6jeUOeNXAsFnV3xTGZpVm4BAvIJz5i25DO',
-    'Amit Sharma (Owner)',
+    'Hashim Khan',
     FALSE,
     TRUE
 ),
 (
     'd0000000-0000-0000-0000-000000000002',
-    'manager@medistock.com',
+    'shahrukh@invflix.com',
     '$2b$12$kaxKuNNl11AZx/DCOut6jeUOeNXAsFnV3xTGZpVm4BAvIJz5i25DO',
-    'Rahul Verma (Manager)',
-    FALSE,
-    TRUE
-),
-(
-    'd0000000-0000-0000-0000-000000000003',
-    'pharmacist@medistock.com',
-    '$2b$12$kaxKuNNl11AZx/DCOut6jeUOeNXAsFnV3xTGZpVm4BAvIJz5i25DO',
-    'Dr. Priya Nair (Pharmacist)',
-    FALSE,
-    TRUE
-),
-(
-    'd0000000-0000-0000-0000-000000000004',
-    'staff@medistock.com',
-    '$2b$12$kaxKuNNl11AZx/DCOut6jeUOeNXAsFnV3xTGZpVm4BAvIJz5i25DO',
-    'Vikram Singh (Staff)',
-    FALSE,
-    TRUE
-),
-(
-    'd0000000-0000-0000-0000-000000000005',
-    'cashier@medistock.com',
-    '$2b$12$kaxKuNNl11AZx/DCOut6jeUOeNXAsFnV3xTGZpVm4BAvIJz5i25DO',
-    'Neha Gupta (Cashier)',
+    'Shahrukh Khan',
     FALSE,
     TRUE
 )
-ON CONFLICT (email) DO NOTHING;
+ON CONFLICT (id) DO UPDATE
+SET email = EXCLUDED.email,
+    password_hash = EXCLUDED.password_hash,
+    full_name = EXCLUDED.full_name,
+    is_platform_admin = EXCLUDED.is_platform_admin,
+    is_active = TRUE;
 
 -- Organization Memberships
 INSERT INTO organization_members (id, organization_id, user_id, role, status)
@@ -118,25 +102,13 @@ VALUES
 (
     gen_random_uuid(),
     'b0000000-0000-0000-0000-000000000001',
-    'd0000000-0000-0000-0000-000000000003',
-    'PHARMACIST',
-    'ACTIVE'
-),
-(
-    gen_random_uuid(),
-    'b0000000-0000-0000-0000-000000000001',
-    'd0000000-0000-0000-0000-000000000004',
-    'STAFF',
-    'ACTIVE'
-),
-(
-    gen_random_uuid(),
-    'b0000000-0000-0000-0000-000000000001',
-    'd0000000-0000-0000-0000-000000000005',
-    'CASHIER',
+    'a0000000-0000-0000-0000-000000000001',
+    'OWNER',
     'ACTIVE'
 )
-ON CONFLICT (organization_id, user_id) DO NOTHING;
+ON CONFLICT (organization_id, user_id) DO UPDATE
+SET role = EXCLUDED.role,
+    status = 'ACTIVE';
 
 -- Branch Memberships
 INSERT INTO branch_members (id, organization_id, branch_id, user_id)
@@ -173,25 +145,23 @@ VALUES
     'c0000000-0000-0000-0000-000000000002',
     'd0000000-0000-0000-0000-000000000002'
 ),
--- Pharmacist assigned to Delhi
+-- Abhyudaya assigned to all branches
 (
     gen_random_uuid(),
     'b0000000-0000-0000-0000-000000000001',
     'c0000000-0000-0000-0000-000000000001',
-    'd0000000-0000-0000-0000-000000000003'
+    'a0000000-0000-0000-0000-000000000001'
 ),
--- Staff assigned to Noida
 (
     gen_random_uuid(),
     'b0000000-0000-0000-0000-000000000001',
     'c0000000-0000-0000-0000-000000000002',
-    'd0000000-0000-0000-0000-000000000004'
+    'a0000000-0000-0000-0000-000000000001'
 ),
--- Cashier assigned to Gurgaon
 (
     gen_random_uuid(),
     'b0000000-0000-0000-0000-000000000001',
     'c0000000-0000-0000-0000-000000000003',
-    'd0000000-0000-0000-0000-000000000005'
+    'a0000000-0000-0000-0000-000000000001'
 )
 ON CONFLICT (branch_id, user_id) DO NOTHING;
