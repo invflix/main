@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from urllib.parse import urlparse, urlunparse
 from app.core.config import settings
 from app.core.logging import setup_logging
 from app.core.exceptions import setup_exception_handlers
@@ -13,12 +14,30 @@ app = FastAPI(
     version="1.0.0"
 )
 
+def build_cors_origins(frontend_url: str) -> list[str]:
+    origins = [
+        origin.strip().rstrip("/")
+        for origin in frontend_url.split(",")
+        if origin.strip()
+    ]
+
+    for origin in list(origins):
+        parsed = urlparse(origin)
+        if not parsed.scheme or not parsed.netloc:
+            continue
+
+        host = parsed.netloc
+        sibling_host = host[4:] if host.startswith("www.") else f"www.{host}"
+        sibling_origin = urlunparse((parsed.scheme, sibling_host, "", "", "", ""))
+        if sibling_origin not in origins:
+            origins.append(sibling_origin)
+
+    origins.extend(["http://localhost:3001", "http://127.0.0.1:3000"])
+    return origins
+
+
 # CORS configuration
-origins = [
-    settings.FRONTEND_URL,
-    "http://localhost:3001",
-    "http://127.0.0.1:3000",
-]
+origins = build_cors_origins(settings.FRONTEND_URL)
 
 app.add_middleware(
     CORSMiddleware,
@@ -61,7 +80,6 @@ app.include_router(claims_router, prefix="/api/v1/organizations", tags=["claims"
 app.include_router(sales_router, prefix="/api/v1/organizations", tags=["sales"])
 app.include_router(analytics_router, prefix="/api/v1/organizations", tags=["analytics"])
 app.include_router(superadmin_router, prefix="/api/v1/super-admin", tags=["super-admin"])
-
 
 
 
