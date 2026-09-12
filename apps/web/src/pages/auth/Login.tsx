@@ -4,8 +4,6 @@ import { ArrowRight, Lock, Mail } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 
-const demoUsers = ["hashim@invflix.com", "shahrukh@invflix.com", "abhyudaya@chaibytes.in"];
-
 const InvflixLogo: React.FC<{ className?: string }> = ({ className = "" }) => (
   <div className={`flex items-center gap-3 ${className}`}>
     <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#FAF8F7] p-2 shadow-sm ring-1 ring-slate-200">
@@ -128,25 +126,6 @@ export const Login: React.FC = () => {
                   {!loading && <ArrowRight className="h-4 w-4" />}
                 </button>
               </form>
-
-              <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-3">
-                <p className="mb-2 text-xs font-bold uppercase text-slate-500">Demo users</p>
-                <div className="space-y-2">
-                  {demoUsers.map((demoEmail) => (
-                    <button
-                      key={demoEmail}
-                      type="button"
-                      onClick={() => {
-                        setEmail(demoEmail);
-                        setPassword("password123");
-                      }}
-                      className="block w-full truncate rounded-md bg-white px-3 py-2 text-left text-xs font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:text-primary hover:ring-primary/30"
-                    >
-                      {demoEmail}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
               <p className="mt-6 text-center text-xs text-slate-500">
                 Don't have an account?{" "}
