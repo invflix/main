@@ -5,6 +5,8 @@ echo "========================================="
 echo "      MediStock Production Deploy        "
 echo "========================================="
 
+COMPOSE="docker compose --env-file .env.production -f docker-compose.prod.yml"
+
 # 1. Validate .env.production
 if [ ! -f ".env.production" ]; then
     echo "ERROR: .env.production file is missing!"
@@ -22,17 +24,18 @@ fi
 
 # 3. Build containers
 echo "Building docker containers..."
-docker compose -f docker-compose.prod.yml build
+$COMPOSE build
 
 # 4. Start postgres + valkey
 echo "Starting database and cache services..."
-docker compose -f docker-compose.prod.yml up -d postgres valkey
+$COMPOSE up -d postgres valkey
 
 # 5. Wait for database
 echo "Waiting for database to be ready..."
-# Load DB name from .env.production
+# Load DB settings from .env.production
 DB_NAME=$(grep -E "^POSTGRES_DB=" .env.production | cut -d'=' -f2- || echo "medistock")
-until docker compose -f docker-compose.prod.yml exec -T postgres pg_isready -U postgres -d "$DB_NAME" >/dev/null 2>&1; do
+DB_USER=$(grep -E "^POSTGRES_USER=" .env.production | cut -d'=' -f2- || echo "postgres")
+until $COMPOSE exec -T postgres pg_isready -U "$DB_USER" -d "$DB_NAME" >/dev/null 2>&1; do
     echo -n "."
     sleep 2
 done
@@ -43,20 +46,20 @@ echo "Database is ready!"
 read -rp "Do you want to apply database evolutions? (y/N): " apply_migrations
 if [[ "$apply_migrations" =~ ^[Yy]$ ]]; then
     echo "Starting temporary API container to run migration runner..."
-    docker compose -f docker-compose.prod.yml up -d api
+    $COMPOSE up -d api
     echo "Applying migrations..."
-    docker compose -f docker-compose.prod.yml exec -T api python scripts/migrate.py
+    $COMPOSE exec -T api python scripts/migrate.py
 else
     echo "Skipping migrations."
 fi
 
 # 7. Start everything else
 echo "Starting remaining production services (API, worker, web)..."
-docker compose -f docker-compose.prod.yml up -d
+$COMPOSE up -d
 
 # 8. Show status
 echo "Services status:"
-docker compose -f docker-compose.prod.yml ps
+$COMPOSE ps
 
 # 9. Clean up
 echo "Pruning unused Docker images..."

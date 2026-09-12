@@ -5,11 +5,11 @@
 @tailwind utilities;
 
 :root {
-  --background: 25 100% 97.6%; /* #FFF8F3 Minimalist Off-White Warm Background */
+  --background: 20 23% 97%; /* #FAF8F7 Minimalist Off-White Warm Background */
   --foreground: 200 33% 19%; /* #203640 Main Text */
-  --card: 25 100% 97.6%; /* #FFF8F3 */
+  --card: 20 23% 97%; /* #FAF8F7 */
   --card-foreground: 200 33% 19%;
-  --popover: 25 100% 97.6%; /* #FFF8F3 */
+  --popover: 20 23% 97%; /* #FAF8F7 */
   --popover-foreground: 200 33% 19%;
   --primary: 186 31% 54%; /* #69A6AD Primary Teal */
   --primary-foreground: 0 0% 100%;
