@@ -15,7 +15,7 @@ export const projects: Project[] = [
     description:
       "An AI voice receptionist for Indian businesses. It answers calls, books appointments, takes payments over the phone, and switches naturally between Hindi and English.",
     stack: ["Speech orchestration", "Telephony (Exotel)", "LLM routing"],
-    href: "https://chaibytes.in/#projects",
+    href: "https://vaidya.chaibytes.in/login",
   },
   {
     name: "TrueSkin",
