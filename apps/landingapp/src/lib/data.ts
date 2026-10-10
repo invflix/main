@@ -28,6 +28,27 @@ export const projects: Project[] = [
   },
 ]
 
+export const contactEmail = "admin.invflix@gmail.com"
+
+export type Founder = {
+  name: string
+  role: string
+  initials: string
+}
+
+export const founders: Founder[] = [
+  {
+    name: "Mohammad Hashim Anwar",
+    role: "Founder",
+    initials: "MHA",
+  },
+  {
+    name: "Sharukh Ai",
+    role: "Founder",
+    initials: "SA",
+  },
+]
+
 export type Capability = {
   title: string
   description: string

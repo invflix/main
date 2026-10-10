@@ -1,4 +1,5 @@
 import { Logo } from "@/components/logo-mark"
+import { contactEmail } from "@/lib/data"
 
 export function Footer() {
   return (
@@ -9,10 +10,10 @@ export function Footer() {
           © 2026 Inviflix. A suite, not a single product.
         </p>
         <a
-          href="mailto:hello@inviflix.com"
+          href={`mailto:${contactEmail}`}
           className="text-sm font-medium text-muted-foreground hover:text-foreground"
         >
-          hello@inviflix.com
+          {contactEmail}
         </a>
       </div>
     </footer>

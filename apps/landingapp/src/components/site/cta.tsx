@@ -2,7 +2,7 @@
 
 import { useReducedMotion } from "motion/react"
 
-import { ShimmerButton } from "@/components/ui/shimmer-button"
+import { ContactModal } from "@/components/site/contact-modal"
 import { Globe } from "@/components/ui/globe"
 
 const GLOBE_CONFIG = {
@@ -42,14 +42,7 @@ export function Cta() {
           four-week build or a longer bet.
         </p>
         <div className="mt-8 flex justify-center">
-          <a href="mailto:hello@inviflix.com">
-            <ShimmerButton
-              background="var(--brand)"
-              className="text-sm font-medium text-brand-foreground"
-            >
-              Book a call
-            </ShimmerButton>
-          </a>
+          <ContactModal />
         </div>
       </div>
 
